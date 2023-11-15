@@ -1,0 +1,33 @@
+[Anamnesis SM-2] Running on port 8090
+--- Anamnesis SM-2 Manual QA Live Test ---
+Test 1 Healthcheck:
+ HTTP/1.1 200 OK
+{"status":"UP","service":"anamnesis-spaced-repetition"}
+
+Test 2 Create Card (Initial EF 2.5, repetitions 0):
+ HTTP/1.1 201 Created
+{"id":"card_f709b82b","deckId":"deck_dist_systems","frontMarkdown":"What is the Byzantine Generals Problem in distributed computing?","backMarkdown":"The consensus challenge where actors must agree on a strategy amidst unreliable communication and malicious nodes.","repetitions":0,"intervalDays":0,"easinessFactor":2.5,"nextReviewDate":"2026-11-25","version":1,"deleted":false,"updatedAt":"2026-11-25T13:12:36.497Z"}
+
+Test 3 Review Grade 5 (Repetitions 1, Interval 1):
+ HTTP/1.1 200 OK
+{"id":"card_f709b82b","deckId":"deck_dist_systems","frontMarkdown":"What is the Byzantine Generals Problem in distributed computing?","backMarkdown":"The consensus challenge where actors must agree on a strategy amidst unreliable communication and malicious nodes.","repetitions":1,"intervalDays":1,"easinessFactor":2.6,"nextReviewDate":"2026-11-26","version":2,"deleted":false,"updatedAt":"2026-11-25T13:12:36.518Z"}
+
+Test 4 Review Grade 4 (Repetitions 2, Interval 6):
+ HTTP/1.1 200 OK
+{"id":"card_f709b82b","deckId":"deck_dist_systems","frontMarkdown":"What is the Byzantine Generals Problem in distributed computing?","backMarkdown":"The consensus challenge where actors must agree on a strategy amidst unreliable communication and malicious nodes.","repetitions":2,"intervalDays":6,"easinessFactor":2.6,"nextReviewDate":"2026-12-01","version":3,"deleted":false,"updatedAt":"2026-11-25T13:12:36.537Z"}
+
+Test 5 Review Grade 5 (Repetitions 3, Interval Multiplied by EF):
+ HTTP/1.1 200 OK
+{"id":"card_f709b82b","deckId":"deck_dist_systems","frontMarkdown":"What is the Byzantine Generals Problem in distributed computing?","backMarkdown":"The consensus challenge where actors must agree on a strategy amidst unreliable communication and malicious nodes.","repetitions":3,"intervalDays":16,"easinessFactor":2.7,"nextReviewDate":"2026-12-11","version":4,"deleted":false,"updatedAt":"2026-11-25T13:12:36.554Z"}
+
+Test 6 Memory Failure Grade 1 (Repetitions & Interval Reset):
+ HTTP/1.1 200 OK
+{"id":"card_f709b82b","deckId":"deck_dist_systems","frontMarkdown":"What is the Byzantine Generals Problem in distributed computing?","backMarkdown":"The consensus challenge where actors must agree on a strategy amidst unreliable communication and malicious nodes.","repetitions":0,"intervalDays":1,"easinessFactor":2.16,"nextReviewDate":"2026-11-26","version":5,"deleted":false,"updatedAt":"2026-11-25T13:12:36.572Z"}
+
+Test 7 Invalid Grade 9 Rejection (400):
+ HTTP/1.1 400 Bad Request
+{"error":"Grade must be an integer between 0 and 5"}
+
+Test 8 Due Cards Querying:
+ HTTP/1.1 200 OK
+{"targetDate":"2026-11-25","count":0,"cards":[]}
