@@ -68,4 +68,17 @@ describe('SuperMemo SM-2 & Cross-Device Sync', () => {
     expect(res.updatedCount).toBe(1);
     expect(syncEngine.getAllCards()[0].backMarkdown).toBe('Updated correct answer');
   });
+
+  test('enforces minimum Easiness Factor floor of 1.3 even on repeated failures', () => {
+    let card: Flashcard = { ...baseCard, easinessFactor: 1.35 };
+
+    // Continuous blackout ratings (grade 0)
+    for (let i = 0; i < 5; i++) {
+      card = SuperMemo2Engine.processReview(card, 0);
+    }
+
+    expect(card.easinessFactor).toBe(1.3); // Never drops below 1.3
+    expect(card.intervalDays).toBe(1);
+    expect(card.repetitions).toBe(0);
+  });
 });
