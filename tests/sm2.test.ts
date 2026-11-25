@@ -30,11 +30,13 @@ describe('SuperMemo SM-2 & Cross-Device Sync', () => {
     const rev2 = SuperMemo2Engine.processReview(rev1, 5, reviewDate);
     expect(rev2.repetitions).toBe(2);
     expect(rev2.intervalDays).toBe(6);
+    expect(rev2.easinessFactor).toBe(2.7);
 
-    // Third review: grade 5 -> rep 3, interval = round(6 * 2.7) = 16 days
+    // Third review: grade 5 -> rep 3, interval = round(6 * 2.8) = 17 days
     const rev3 = SuperMemo2Engine.processReview(rev2, 5, reviewDate);
     expect(rev3.repetitions).toBe(3);
-    expect(rev3.intervalDays).toBe(16);
+    expect(rev3.intervalDays).toBe(17);
+    expect(rev3.easinessFactor).toBe(2.8);
   });
 
   test('resets interval and repetitions on failed recall (grade 1)', () => {
